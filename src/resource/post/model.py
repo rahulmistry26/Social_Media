@@ -6,7 +6,7 @@ from datetime import datetime
 class PostModel(Base):
     __tablename__ ="posts"
     id = Column(Integer,primary_key=True)
-    user_id =Column(Integer,ForeignKey('user.id'))
+    user_id =Column(Integer,ForeignKey('user.id',ondelete='cascade'))
     user = relationship("UserModel")
     title = Column(String(500))
     caption = Column(String(500))
@@ -20,9 +20,9 @@ class PostModel(Base):
 class PostLike(Base):
     __tablename__ ="post_like"
     id = Column(Integer,primary_key=True)
-    user_id =Column(Integer,ForeignKey('user.id'))
+    user_id =Column(Integer,ForeignKey('user.id',ondelete='cascade'))
     user = relationship("UserModel")
-    post_id =Column(Integer,ForeignKey('posts.id'))
+    post_id =Column(Integer,ForeignKey('posts.id',ondelete='cascade'))
     post = relationship("PostModel")
     created_at = Column(DateTime,default=datetime.utcnow())
 

@@ -36,13 +36,13 @@ def create_follow(follows:FollowRequest,db:Session=Depends(get_db)):
         raise HTTPException(status_code=500,detail="not inserted")
 
 def remove_follow(unfollow:UnfollowUser,db:Session=Depends(get_db)):
-    try:
+    # try:
         # breakpoint()
         user_db =db.query(UserModel).filter(UserModel.id==unfollow.user_id).first()
         if not user_db:
             raise HTTPException(status_code=404,detail="User not found")
         
-        unfollow_db =db.query(UserModel).filter(UserModel.id==unfollow.follower_id).first()
+        unfollow_db =db.query(FollowModel).filter(FollowModel.id==unfollow.follower_id).first()
         if not unfollow_db:
             raise HTTPException(status_code=404,detail="User not found")
     
@@ -51,16 +51,16 @@ def remove_follow(unfollow:UnfollowUser,db:Session=Depends(get_db)):
 
         user_db.follow_count=(user_db.follow_count or 0) -1
         db.commit()
-        # db.refresh()
+        # db.refresh(unfollow_db)
 
-        db.refresh(unfollow_db)
+        # db.refresh(unfollow_db)
        
         return{
             "Success":True,
             "Message":"User Unfollow"
         }
-    except Exception as e:
-        raise HTTPException(status_code=500,detail="not removed follower")
+    # except Exception as e:
+    #     raise HTTPException(status_code=500,detail="not removed follower")
     
 def get_follower_count(user_id: int, db: Session = Depends(get_db)):
     try:

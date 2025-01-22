@@ -7,10 +7,10 @@ class FollowModel(Base):
     __tablename__ = "followers"
     id = Column(Integer,primary_key=True)
     
-    user_id = Column(Integer,ForeignKey("user.id"))
+    user_id = Column(Integer,ForeignKey("user.id",ondelete='cascade'))
 
     # user = relationship("UserModel") 
-    follower_id = Column(Integer,ForeignKey("user.id"))
+    follower_id = Column(Integer,ForeignKey("user.id", ondelete='cascade'))
     # user = relationship("UserModel")
     created_at = Column(DateTime, default=datetime.utcnow())
 
